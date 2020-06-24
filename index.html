@@ -111,8 +111,25 @@ function plotHourlyByDay(plotTable) {
 
 		var options = {
 			title: "Climber Count by Hour (Historical Average)",
-			bar: {groupWidth: "90%"},
+			bar: {groupWidth: "75%"},
 			legend: { position: "none" },
+			hAxis: {
+				textStyle: {
+					fontSize: 20
+				} 
+			},
+			vAxis: {
+				textStyle: {
+					fontSize: 20
+				}
+			},
+		    annotations: {
+		        alwaysOutside: true,
+		        textStyle: {
+		            fontSize: 24,
+		            auraColor: 'none'
+		        }
+    		}
 		};
 		var chart = new google.charts.Bar(document.getElementById('chart_div'));
 		chart.draw(data, google.charts.Bar.convertOptions(options));
