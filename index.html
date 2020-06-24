@@ -3,6 +3,29 @@
 
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.701.0.min.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<label for="gym">Gym Location:</label>
+<select name="gym" id="gym" onchange="queryData();">
+  <option value="South Bay">South Bay</option>
+  <option value="Long Beach">Long Beach</option>
+</select>
+
+<label for="dayOfWeek">Day of Week:</label>
+<select name="dayOfWeek" id="dayOfWeek" onchange="queryData();">
+  <option value="Monday">Monday</option>
+  <option value="Tuesday">Tuesday</option>
+  <option value="Wednesday">Wednesday</option>
+  <option value="Thursday">Thursday</option>
+  <option value="Friday">Friday</option>
+  <option value="Saturday">Saturday</option>
+  <option value="Sunday">Sunday</option>
+</select>
+
+<br><br>
+<div id="chart_div" style="height: 500px;"></div>
 
 <script>
 // AWS setup
@@ -17,6 +40,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 // Google setup
 google.charts.load('current', {'packages':['bar']});
 
+// Globals
 var DAYSTRING_NUM_MAP = {
 	'Sunday': 0,	
 	'Monday': 1,
@@ -26,6 +50,18 @@ var DAYSTRING_NUM_MAP = {
 	'Friday': 5,
 	'Saturday': 6
 }
+
+// On Start, set day option to current day of week
+var val = new Intl.DateTimeFormat('en-US', {weekday:'long'}).format(new Date());
+var sel = document.getElementById('dayOfWeek');
+var opts = sel.options;
+for (var opt, j = 0; opt = opts[j]; j++) {
+	if (opt.value == val) {
+	  sel.selectedIndex = j;
+	  break;
+	}
+}
+queryData();
 
 
 function processDbDateString(datestring) {
@@ -109,29 +145,6 @@ function queryData() {
 }
 
 </script>
-</head>
-
-<body>
-
-<label for="gym">Gym Location:</label>
-<select name="gym" id="gym" onchange="queryData();">
-  <option value="South Bay">South Bay</option>
-  <option value="Long Beach">Long Beach</option>
-</select>
-
-<label for="dayOfWeek">Day of Week:</label>
-<select name="dayOfWeek" id="dayOfWeek" onchange="queryData();">
-  <option value="Monday">Monday</option>
-  <option value="Tuesday">Tuesday</option>
-  <option value="Wednesday">Wednesday</option>
-  <option value="Thursday">Thursday</option>
-  <option value="Friday">Friday</option>
-  <option value="Saturday">Saturday</option>
-  <option value="Sunday">Sunday</option>
-</select>
-
-<br><br>
-<div id="chart_div" style="height: 500px;"></div>
 
 </body>
 </html> 
